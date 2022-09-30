@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+  <!-- <link rel="stylesheet" href="https://resources/demos/style.css"> -->
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+  <script scr="/home/st/Dineshkumar/project/asset/moment/moment.js"></script>
+<script scr="/home/st/Dineshkumar/project/asset/moment/momentlocale.js"></script>
+  <script>
+    $(function () {
+      $("#dob").datepicker({
+        changeMonth: true,
+        changeYear: true,
+        yearRange: "-100:+0",
+        onSelect: function () {
+          myfunc();
+        }
+      });
+    });
+
+    function myfunc() {
+      var today = new Date();
+      var date = (today.getMonth() + 1) + '/' + today.getDate() + '/' + today.getFullYear();
+
+
+      var start = $("#dob").datepicker("getDate");
+      var end = today;
+
+
+      var DOB = new Date(start);
+      var age = today.getTime() - DOB.getTime();
+      var elapsed = new Date(age);
+      var year1 = elapsed.getYear() - 70;
+      var month1 = elapsed.getMonth();
+      var day1 = elapsed.getDay();
+
+
+
+
+      var days = (end - start) / (1000 * 60 * 60 * 24);
+      var weakdays = (days % 7);
+      
+      month = (end.getMonth() - start.getMonth()) + (12 * (end.getFullYear() - start.getFullYear()));
+      week = (end - start) / (1000 * 60 * 60 * 24 * 7);
+      year = (end.getFullYear() - start.getFullYear());
+      
+
+      document.getElementById("year").innerHTML = Math.floor(year1) + " " + "years" + " " + month1 + " " + "months" + " " + day1 + " " + "days";
+      document.getElementById("months").innerHTML = "or" + " " + Math.floor(month) + " " + "months" + " " + Math.floor(day1) + " " + "days";
+      document.getElementById("week").innerHTML = "or" + " " + Math.floor(week) + " " + "weeks" + " " + Math.floor(weakdays) + " " + "days";
+      document.getElementById("day").innerHTML = "or" + " " + Math.floor(days) + " " + "days";
+
+    }
+
+  </script>
+</head>
+
+<body>
+  <p>Date of Birth: <input type="text" id="dob"></p>
+
+  <p id="year"></p>
+  <p id="months"></p>
+  <p id="week"></p>
+  <p id="day"></p>
+
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-duration-format/2.2.2/moment-duration-format.min.js"></script>
+</head>
+<script>
+    $(function () {
+        $("#dob").datepicker({
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "-100:+0",
+            onSelect: function () {
+                myfunc();
+            }
+        });
+    });
+    function myfunc() {
+        //get a date from date picker
+        var start = $("#dob").datepicker("getDate");
+        var dob = moment(start);
+
+        //get a today date
+        var today = moment();
+        var date = (today.format());
+        //find year,month,days
+        var diff = moment(dob).diff(moment(), 'milliseconds');
+        var duration = moment.duration(diff);
+
+        //split and get the  remaining days from year and month
+        var ans = duration.format();
+        ans.split(',').forEach((element) => {
+            if (element.includes('days')) {
+                day2 = element.split('days')[0];
+            }
+        })
+
+        //difference between the days
+        day1 = (today.diff(dob, 'days'));
+        //difference between the months
+        month1 = (today.diff(dob, 'months'));
+        //difference between the years
+        year1 = (today.diff(dob, 'years'));
+        //difference between the week
+        week1 = (today - dob) / (1000 * 60 * 60 * 24 * 7);
+        //the  remaining days from week
+        var weakdays = (day1 % 7);
+        document.getElementById("year").innerHTML = duration.format().replace("-", "");
+        document.getElementById("months").innerHTML = "or" + " " + Math.floor(month1) + " " + "months" + " " + Math.floor(day2) + " " + "days";
+        document.getElementById("week").innerHTML = "or" + " " + Math.floor(week1) + " " + "weeks" + " " + Math.floor(weakdays) + " " + "days";
+        document.getElementById("day").innerHTML = "or" + " " + Math.floor(day1) + " " + "days";
+    }
+</script>
+<body>
+    <p>Date of Birth: <input type="text" id="dob"></p>
+    <p id="year"></p>
+    <p id="months"></p>
+    <p id="week"></p>
+    <p id="day"></p>
+</body>
+</html>
